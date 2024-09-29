@@ -1,0 +1,83 @@
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+/**
+ * This program demonstrates how a Java object can be saved to a binary file
+ * and then later loaded from the file.
+ * 
+ * You can delete the data file object.dat before running this program Zl create it from scratch.
+ */
+public class App {
+    public static void start() {
+        User user = null;
+        Scanner input = new Scanner(System.in);
+
+        while (true) {
+            // Allow a choice to be made.
+            System.out.println(
+                "\n1. Display user" +
+                "\n2. Open user" +
+                "\n3. Create new user" +
+                "\n4. Save user" +
+                "\n5. Exit");
+            int choice = Integer.parseInt(input.nextLine());
+
+            if (choice == 1) {
+                if (user == null) {
+                    System.out.println("\nNo user found. Open a user or create a user first.");
+                } else {
+                    System.out.println("\n" + user);
+                }
+
+            } else if (choice == 2) {
+                // Reads a User object from the object.dat file.
+                try {
+                    // Create objects that allow us to write to a file.
+                    FileInputStream fileIn = new FileInputStream("object.dat");
+                    ObjectInputStream in = new ObjectInputStream(fileIn);
+                    // Cast the object read to a User object.
+                    user = (User) in.readObject();
+                    // Close the file so other programs may use it.
+                    in.close();
+                    fileIn.close();
+                } catch (Exception e) {
+                    System.out.println("Problem opening user: " + e);
+                }
+
+            } else if (choice == 3) {
+                System.out.print("First Name: ");
+                String name = input.nextLine();
+                
+                System.out.print("Last Name: ");
+                String lastName = input.nextLine();
+
+                System.out.print("Rating: ");
+                int rating = Integer.parseInt(input.nextLine());
+
+                // Create a new User object from the input
+                user = new User(name, lastName, rating);
+
+            } else if (choice == 4) {
+                try {
+                    // Create objects that allow us to read a file.
+                    FileOutputStream fileOut = new FileOutputStream("object.dat");
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+                    // Write the object to the file.
+                    out.writeObject(user);
+                    // Close the file so other programs may use it.
+                    out.close();
+                    fileOut.close();
+                } catch (Exception e) {
+                    System.out.println("Problem saving user: " + e);
+                }
+
+            } else if (choice == 5) {
+                break;
+            }
+        }
+    }
+
+}
