@@ -1,0 +1,23 @@
+import java.io.Serializable;
+
+/**
+ * A single User object can be saved and loaded from a file. The
+ * Serializable interface is required to serialize/deserialize objects.
+ */
+public class User implements Serializable
+{
+    private String name;
+    private String lastName;
+    private int rating;
+    
+    
+    User(String name, String lastName, int rating) {
+        this.name = name;
+        this.rating = rating;
+        this.lastName = lastName;
+    }
+    
+    public String toString() {
+        return "First Name: " + name + "Last Name: " + lastName  + " Rating: " + rating;
+    }
+}
